@@ -2,6 +2,9 @@
     width:135px;
 }
 
-.mat-toolbar{
+.main-toolbar{
     background-color: #ffffff;
+    top:0;
+    position: sticky;
+    z-index: 10;
 }

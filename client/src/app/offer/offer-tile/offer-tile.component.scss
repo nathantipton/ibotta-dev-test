@@ -1,0 +1,35 @@
+.tile-container{
+    margin: 10px;
+    background-color: #ffffff;
+    max-width: 400px;
+    top: 0;
+    bottom: 0;
+    right:0;
+    left:0;
+    position: absolute;
+    padding: 20px;
+    transition: all .3s   cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.tile-container:hover{
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+}
+
+.product-image{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    flex:0 300px;
+    margin: 20px 0px;
+}
+
+.name{
+    font-weight: bold;
+}
+
+.retailer, .description{
+    color: rgba(74,74,74,.8);
+    cursor: pointer;
+    font-size: .889em;
+}

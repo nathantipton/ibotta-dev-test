@@ -1,1 +1,7 @@
-<p style="padding:50px;">home works</p>
+<div class="home-container">
+    <mat-grid-list cols="4"  gutter="20">
+        <mat-grid-tile *ngFor="let offer of filteredOffers">
+            <div ibotta-offer-tile [offer]="offer"></div>
+        </mat-grid-tile>
+      </mat-grid-list>
+</div>

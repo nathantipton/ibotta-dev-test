@@ -11,7 +11,7 @@ export class OfferService {
     private http: HttpClient
   ) { }
 
-  getOffers():Observable<any>{
-    return this.http.get("http://localhost:3000/offers.json")
+  getRetailerOffers():Observable<any>{
+    return this.http.get("http://localhost:3000/retailer_offers.json")
   } 
 }

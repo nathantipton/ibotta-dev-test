@@ -1,3 +1,16 @@
-<p>
-  offer-tile works!
-</p>
+<div class="tile-container  mat-elevation-z1" fxLayout="column" fxLayoutAlign="space-between stretch">
+  <div  fxLayout="row" fxLayoutAlign="space-between center" >
+    <div fxFlex fxLayout="column" fxLayoutAlign="space-between stretch" >
+      <div class="name">{{offer.offer.name}}</div>
+      <div class="retailer">{{offer.retailer.name}}</div>
+    </div>
+      <div>
+        <mat-icon>favorite_border</mat-icon>
+      </div>
+  </div>
+
+  <div fxFlex class="product-image" [style.backgroundImage]="'url('+ offer.offer.image_url +')'"></div>
+  <div>
+    <p class="description">{{offer.offer.description}}</p>
+  </div>
+</div>

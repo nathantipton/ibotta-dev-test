@@ -1,6 +1,14 @@
 Ibotta Dev Project (Web Engineer)
 =========
 
+### Building the Project
+`rails db:migrate`
+`rails db:seed`
+`cd client`
+`npm install`
+`npm start`
+http://localhost:4200
+
 The Project
 ---
 Your goal is to send the offer data (more details below) from the

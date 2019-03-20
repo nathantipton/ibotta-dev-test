@@ -11,13 +11,16 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RetailerComponent } from './retailer/retailer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OfferComponent,
     OfferTileComponent,
-    HomeComponent
+    HomeComponent,
+    RetailerComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -26,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     RouterModule,
     FlexLayoutModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

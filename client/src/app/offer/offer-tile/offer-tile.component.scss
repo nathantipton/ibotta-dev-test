@@ -9,6 +9,8 @@
     position: absolute;
     padding: 20px;
     transition: all .3s   cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .tile-container:hover{
@@ -30,6 +32,5 @@
 
 .retailer, .description{
     color: rgba(74,74,74,.8);
-    cursor: pointer;
     font-size: .889em;
 }

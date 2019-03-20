@@ -1,12 +1,9 @@
-<div class="tile-container  mat-elevation-z1" fxLayout="column" fxLayoutAlign="space-between stretch">
+<div class="tile-container  mat-elevation-z3" fxLayout="column" fxLayoutAlign="space-between stretch" [routerLink]="['/offer',offer.id]">
   <div  fxLayout="row" fxLayoutAlign="space-between center" >
     <div fxFlex fxLayout="column" fxLayoutAlign="space-between stretch" >
       <div class="name">{{offer.offer.name}}</div>
       <div class="retailer">{{offer.retailer.name}}</div>
     </div>
-      <div>
-        <mat-icon>favorite_border</mat-icon>
-      </div>
   </div>
 
   <div fxFlex class="product-image" [style.backgroundImage]="'url('+ offer.offer.image_url +')'"></div>

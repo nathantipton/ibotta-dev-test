@@ -3,6 +3,8 @@ import { OfferService } from '../offer/offer.service';
 import { RetailerOffer } from '../shared/models/retailer-offer';
 import { Retailer } from '../shared/models/retailer';
 import { Offer } from '../shared/models/offer';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import{ debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'ibotta-home',
@@ -13,12 +15,25 @@ export class HomeComponent implements OnInit {
 
   offers: RetailerOffer[];
   filteredOffers: RetailerOffer[];
-
+  isLoading: boolean;
+  searchForm: FormGroup;
+  
   constructor(
-    private offerService: OfferService
-  ) { }
+    private offerService: OfferService,
+    private fb: FormBuilder
+  ) {   }
+
+
 
   ngOnInit() {
+    this.searchForm = this.fb.group({
+      query: ''
+    })
+    this.searchForm.controls.query.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+      console.log(value)
+    })
+
+    this.isLoading = true;
     this.offers = [];
     this.offerService.getRetailerOffers().subscribe(values => {
 
@@ -44,6 +59,7 @@ export class HomeComponent implements OnInit {
         )
       })
       this.filteredOffers = Object.assign(this.offers, [])
+      this.isLoading = false;
     })
   }
 }

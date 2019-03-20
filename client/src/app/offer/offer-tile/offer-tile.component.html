@@ -1,8 +1,8 @@
-<div class="tile-container  mat-elevation-z3" fxLayout="column" fxLayoutAlign="space-between stretch" [routerLink]="['/offer',offer.id]">
+<div class="tile-container  mat-elevation-z3" fxLayout="column" fxLayoutAlign="space-between stretch" [routerLink]="['/offer',offer.offer.id]">
   <div  fxLayout="row" fxLayoutAlign="space-between center" >
     <div fxFlex fxLayout="column" fxLayoutAlign="space-between stretch" >
       <div class="name">{{offer.offer.name}}</div>
-      <div class="retailer">{{offer.retailer.name}}</div>
+      <div *ngIf="offer.retailer" class="retailer" (click)="selectRetailer(offer.retailer)">{{offer.retailer.name}}</div>
     </div>
   </div>
 

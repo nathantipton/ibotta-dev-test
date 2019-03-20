@@ -1,15 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { OfferService } from '../offer/offer.service';
 import { RetailerOffer } from '../shared/models/retailer-offer';
-import { Retailer } from '../shared/models/retailer';
 import { Offer } from '../shared/models/offer';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import{ debounceTime} from 'rxjs/operators';
+import {trigger, transition, style, animate} from '@angular/animations';
+import { Retailer } from '../shared/models/retailer';
+import { RetailerService } from '../retailer/retailer.service';
 
 @Component({
   selector: 'ibotta-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+    trigger('slideDown', [
+      transition(':enter', [
+        style({ transform: 'translateY(-25%)', opacity: 0 }),
+        animate('.25s 0s cubic-bezier(0.4, 0.0, 0.2, 1)', style({ transform: 'translateY(0)', opacity: 1 }))
+      ])
+    ]),
+    trigger('scaleInOut', [
+      transition(':enter', [
+        style({ transform: 'scale(.8)', opacity: 0 }),
+        animate('.25s 0s cubic-bezier(0.4, 0.0, 0.2, 1)', style({ transform: 'scale(1)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'scale(1)', opacity: 1 }),
+        animate('.25s 0s cubic-bezier(0.4, 0.0, 0.2, 1)', style({ transform: 'scale(.8)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class HomeComponent implements OnInit {
 
@@ -17,20 +37,23 @@ export class HomeComponent implements OnInit {
   filteredOffers: RetailerOffer[];
   isLoading: boolean;
   searchForm: FormGroup;
-  
+  selectedRetailers: Retailer[];
+
   constructor(
     private offerService: OfferService,
+    private retailerService: RetailerService,
     private fb: FormBuilder
   ) {   }
 
-
+  get query(): string {return this.searchForm.controls.query.value}
 
   ngOnInit() {
+    this.selectedRetailers = [];
     this.searchForm = this.fb.group({
       query: ''
     })
     this.searchForm.controls.query.valueChanges.pipe(debounceTime(300)).subscribe(value => {
-      console.log(value)
+      this.filterOffers();
     })
 
     this.isLoading = true;
@@ -39,7 +62,7 @@ export class HomeComponent implements OnInit {
 
       this.offers = values.map(x => {
         return new RetailerOffer(
-          x.id,
+          x.id, 
           new Retailer(
             x.retailer.id,
             x.retailer.name,
@@ -58,8 +81,32 @@ export class HomeComponent implements OnInit {
           x.updated_at
         )
       })
-      this.filteredOffers = Object.assign(this.offers, [])
+      this.filterOffers();
       this.isLoading = false;
     })
+  }
+
+  filterOffers(){
+    this.filteredOffers = this.offers.filter(x=>{
+      console.log(this.query)
+      return (
+       (this.query.length > 0 ) ? this.searchOffersByQuery(x) : true
+      )
+    }).sort((a,b)=>{
+      return (a.retailer.name < b.retailer.name) ? -1 : (a.retailer.name > b.retailer.name) ? 1 : 0;
+    })
+  }
+
+  searchOffersByQuery(offer: RetailerOffer): boolean{
+    return(
+      (offer.offer.name.toLowerCase().indexOf(this.query.toLowerCase()) > -1) ||
+      (offer.offer.description.toLowerCase().indexOf(this.query.toLowerCase()) > -1) ||
+      (offer.offer.terms.toLowerCase().indexOf(this.query.toLowerCase()) > -1) ||
+      ((offer.retailer) ? (offer.retailer.name.toLowerCase().indexOf(this.query.toLowerCase()) > -1) : false)
+    )
+  }
+
+  selectRetailer(retailer: Retailer){
+    this.selectedRetailers.push(retailer);
   }
 }

@@ -5,17 +5,13 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class OfferService {
+export class RetailerService {
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getOffers():Observable<any>{
+  getRetailers():Observable<any>{
     return this.http.get("http://localhost:3000/offers.json")
-  } 
-
-  getRetailerOffers():Observable<any>{
-    return this.http.get("http://localhost:3000/retailer_offers.json")
   } 
 }

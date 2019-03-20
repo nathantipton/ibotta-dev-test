@@ -1,0 +1,33 @@
+.offer-container{
+    background: #ffffff;
+    padding: 20px;
+    transition: all .3s   cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: 10px;
+}
+
+.product-image{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 200px;
+    height: 200px;
+}
+
+.name{
+    font-weight: bold;
+}
+
+.retailer, .description, .terms{
+    color: rgba(74,74,74,.8);
+    font-size: .889em;
+}
+
+.retailer{
+    color:#e84678;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.content{
+    position: relative;
+}

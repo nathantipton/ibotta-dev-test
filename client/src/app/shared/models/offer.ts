@@ -1,6 +1,6 @@
 export class Offer {
     id: number;
-    name: string; 
+    name: string;
     description: string;
     terms: string;
     image_url: string;
@@ -8,13 +8,13 @@ export class Offer {
     updated_at: Date;
     constructor(
         id: number,
-        name: string, 
+        name: string,
         description: string,
         terms: string,
         image_url: string,
         created_at: Date,
         updated_at: Date
-    ){ 
+    ) {
         this.id = id;
         this.name = name;
         this.description = description;

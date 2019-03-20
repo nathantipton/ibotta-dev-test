@@ -8,3 +8,21 @@ body{
     font-family: 'Roboto', Arial, sans-serif;
     background: #f2f3f4;
 }
+
+.mat-mini-fab.mat-accent{
+    background-color: #20e1d1
+}
+
+.loading-overlay{
+    top:0;
+    bottom: 0;
+    left:0;
+    right: 0;
+    position: absolute;
+    z-index: 100;
+    background-color:  rgba(255,255,255,.75)
+}
+
+.loading-spinner.mat-progress-spinner circle, .mat-spinner circle{
+    stroke:  #e84678 !important;
+}

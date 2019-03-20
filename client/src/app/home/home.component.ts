@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { OfferService } from '../offer/offer.service';
 import { RetailerOffer } from '../shared/models/retailer-offer';
 import { Offer } from '../shared/models/offer';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import{ debounceTime} from 'rxjs/operators';
-import {trigger, transition, style, animate} from '@angular/animations';
+import { debounceTime } from 'rxjs/operators';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Retailer } from '../shared/models/retailer';
-import { RetailerService } from '../retailer/retailer.service';
 
 @Component({
   selector: 'ibotta-home',
@@ -32,37 +31,59 @@ import { RetailerService } from '../retailer/retailer.service';
   ]
 })
 export class HomeComponent implements OnInit {
+  constructor(
+    private offerService: OfferService,
+    private fb: FormBuilder
+  ) { }
 
+  get query(): string { return this.searchForm.controls.query.value; }
+  get selectedRetailers(): Retailer[] { return this.searchForm.controls.retailers.value; }
+  columns: number;
+  browserWidth: number;
   offers: RetailerOffer[];
   filteredOffers: RetailerOffer[];
   isLoading: boolean;
   searchForm: FormGroup;
-  selectedRetailers: Retailer[];
-
-  constructor(
-    private offerService: OfferService,
-    private retailerService: RetailerService,
-    private fb: FormBuilder
-  ) {   }
-
-  get query(): string {return this.searchForm.controls.query.value}
+  retailerOptions: Retailer[];
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.browserWidth = event.target.innerWidth;
+    this.determineColumns();
+  }
 
   ngOnInit() {
-    this.selectedRetailers = [];
+    this.determineColumns();
     this.searchForm = this.fb.group({
-      query: ''
-    })
-    this.searchForm.controls.query.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+      query: '',
+      retailers: null
+    });
+    this.searchForm.valueChanges.pipe(debounceTime(300)).subscribe(value => {
       this.filterOffers();
-    })
+    });
+    this.getOffers();
+  }
 
+  determineColumns() {
+    if (!this.browserWidth) {
+      this.browserWidth = window.innerWidth;
+    }
+    if (this.browserWidth >= 1280) {
+      this.columns = 4;
+    } else if (this.browserWidth > 1024) {
+      this.columns = 3;
+    } else {
+      this.columns = 2;
+    }
+  }
+
+  getOffers() {
     this.isLoading = true;
     this.offers = [];
     this.offerService.getRetailerOffers().subscribe(values => {
 
       this.offers = values.map(x => {
         return new RetailerOffer(
-          x.id, 
+          x.id,
           new Retailer(
             x.retailer.id,
             x.retailer.name,
@@ -79,34 +100,44 @@ export class HomeComponent implements OnInit {
             x.offer.updated_at),
           x.created_at,
           x.updated_at
-        )
-      })
+        );
+      });
+      this.getRetailers();
       this.filterOffers();
       this.isLoading = false;
-    })
+    });
   }
 
-  filterOffers(){
-    this.filteredOffers = this.offers.filter(x=>{
-      console.log(this.query)
+  getRetailers() {
+    this.retailerOptions = [];
+    this.offers.forEach(offer => {
+      if (this.retailerOptions.map(x => x.id).indexOf(offer.retailer.id) === -1) {
+        this.retailerOptions.push(offer.retailer);
+      }
+    });
+
+    this.retailerOptions.sort((a, b) => {
+      return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0;
+    });
+  }
+
+  filterOffers() {
+    this.filteredOffers = this.offers.filter(x => {
       return (
-       (this.query.length > 0 ) ? this.searchOffersByQuery(x) : true
-      )
-    }).sort((a,b)=>{
+        ((this.query.length > 0) ? this.searchOffersByQuery(x) : true) &&
+        ((this.selectedRetailers && this.selectedRetailers.length > 0) ? this.selectedRetailers.map(r => r.id).indexOf(x.retailer.id) > -1 : true)
+      );
+    }).sort((a, b) => {
       return (a.retailer.name < b.retailer.name) ? -1 : (a.retailer.name > b.retailer.name) ? 1 : 0;
-    })
+    });
   }
 
-  searchOffersByQuery(offer: RetailerOffer): boolean{
-    return(
+  searchOffersByQuery(offer: RetailerOffer): boolean {
+    return (
       (offer.offer.name.toLowerCase().indexOf(this.query.toLowerCase()) > -1) ||
       (offer.offer.description.toLowerCase().indexOf(this.query.toLowerCase()) > -1) ||
       (offer.offer.terms.toLowerCase().indexOf(this.query.toLowerCase()) > -1) ||
       ((offer.retailer) ? (offer.retailer.name.toLowerCase().indexOf(this.query.toLowerCase()) > -1) : false)
-    )
-  }
-
-  selectRetailer(retailer: Retailer){
-    this.selectedRetailers.push(retailer);
+    );
   }
 }

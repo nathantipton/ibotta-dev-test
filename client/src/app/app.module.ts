@@ -12,15 +12,13 @@ import { MaterialModule } from './shared/material/material.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RetailerComponent } from './retailer/retailer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OfferComponent,
     OfferTileComponent,
-    HomeComponent,
-    RetailerComponent
+    HomeComponent
   ],
   imports: [
     BrowserAnimationsModule,

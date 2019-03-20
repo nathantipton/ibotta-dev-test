@@ -13,7 +13,7 @@ export class RetailerOffer {
         offer: Offer,
         created_at: Date,
         updated_at: Date
-    ){ 
+    ) {
         this.id = id;
         this.retailer  = retailer;
         this.offer = offer;

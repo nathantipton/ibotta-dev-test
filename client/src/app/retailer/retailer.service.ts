@@ -11,7 +11,7 @@ export class RetailerService {
     private http: HttpClient
   ) { }
 
-  getRetailers():Observable<any>{
-    return this.http.get("http://localhost:3000/offers.json")
-  } 
+  getRetailers(): Observable<any> {
+    return this.http.get('http://localhost:3000/retailers.json');
+  }
 }

@@ -15,11 +15,11 @@ export class OfferTileComponent implements OnInit {
   ngOnInit() {
   }
 
-  getOfferUrlCss():string{
-    return `url('${this.offer.image_url}')`
+  getOfferUrlCss(): string {
+    return `url('${this.offer.image_url}')`;
   }
 
-  selectRetailer(retailer: Retailer){
-    this.retailerEmitter.emit(retailer)
+  selectRetailer(retailer: Retailer) {
+    this.retailerEmitter.emit(retailer);
   }
 }

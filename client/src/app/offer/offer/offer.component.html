@@ -1,3 +1,25 @@
-<p>
-  offer works!
-</p>
+<div *ngIf="offer" class="container offer-container  mat-elevation-z3 mt-4 p-5" fxLayout="row"
+  fxLayoutAlign="space-between start">
+  <div class="product-image" [style.backgroundImage]="'url('+ offer.image_url +')'"></div>
+  <div fxFlex class="ml-4">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-between stretch">
+        <h3 class="name">{{offer.name}}</h3>
+      </div>
+    </div>
+
+
+    <div>
+      <p class="description">{{offer.description}}</p>
+    </div>
+    <div>
+      <p class="terms">{{offer.terms}}</p>
+    </div>
+
+    <div class="loading-overlay" fxLayout="column" fxLayoutAlign="center center" *ngIf="isLoading">
+      <div>
+        <mat-spinner diameter="50" strokeWidth="5" class="loading-spinner"></mat-spinner>
+      </div>
+    </div>
+  </div>
+</div>

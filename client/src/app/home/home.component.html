@@ -1,24 +1,26 @@
-<mat-toolbar class="mat-elevation-z1 filter-toolbar" fxLayout="row" fxLayoutAlign="space-between center">
-    <div>
-            <form [formGroup]="searchForm">
-                    <mat-form-field>
-                        <i class="fas fa-search" matPrefix></i>
-                        <input matInput type="text" placeholder="Search Offers..." formControlName="query">
-                    </mat-form-field>
-                </form>
-    </div>
-    <div>
-        <form [formGroup]="searchForm">
-            <mat-form-field>
-               <mat-select>
-                   <mat-option></mat-option>
-               </mat-select>
-            </mat-form-field>
-        </form>
-    </div>
+<mat-toolbar class="mat-elevation-z1 filter-toolbar">
+    <form [formGroup]="searchForm" class="w-100" autocomplete="off">
+        <div class="container px-4" fxLayout="row" fxLayoutAlign="space-between center">
+            <div>
+                <mat-form-field>
+                    <i class="fas fa-search" matPrefix></i>
+                    <input matInput type="text" placeholder="Search Offers and Retailers..." formControlName="query">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field color="accent">
+                    <i class="fas fa-filter" matPrefix></i>
+                    <mat-select placeholder="Retailers" multiple formControlName="retailers">
+                        <mat-option *ngFor="let retailer of retailerOptions" [value]="retailer">{{retailer.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
 </mat-toolbar>
-<div class="home-container">
-    <mat-grid-list cols="4" gutter="20">
+<div class="home-container container">
+    <mat-grid-list [cols]="columns" gutter="20">
         <mat-grid-tile *ngFor="let offer of filteredOffers" [@scaleInOut]>
             <div ibotta-offer-tile [offer]="offer" (retailerEmitter)="selectRetailer($event)"></div>
         </mat-grid-tile>
